@@ -200,8 +200,6 @@ class OyunaBaslaState extends State<OyunaBasla> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        skorlar.globalSkorTablosuOyuncuSayisiList = List<int>.generate(oyuncuAdedi!, (int index) => index++);
-                        print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return BetEkrani(round: round, oyuncuAdedi: oyuncuAdedi, karsilasanOyuncu1: oyuncu1, karsilasanOyuncu2: oyuncu2);
