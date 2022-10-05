@@ -1,0 +1,106 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'butonlar.dart';
+import 'anabaslik.dart';
+import 'package:yirmibir_saniye/globals.dart';
+import '../bet_ekrani.dart';
+import '../geri sayim ekrani/gerisayim_ekrani.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'KurriIsland',
+        primarySwatch: Colors.orange,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/':(context) => MyHomePage(),
+        'BetEkrani':(context) => BetEkrani(),
+      },
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Scaffold(
+        backgroundColor: arkaplanColor,
+        body: Body(
+            baslik1: '20\nSaniye',
+          ),
+      ),
+        //buraya SlidingUpPanelWidget gelecek, eklenmesi gereken dependency chrome flutter yer imlerinde
+    ],
+    );
+  }
+}
+
+class Body extends StatelessWidget {
+  const Body({
+    required this.baslik1,
+    Key? key,
+  }) : super(key: key);
+
+  final String baslik1;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Positioned(
+          top: 140,
+          left: 10,
+          right: 10,
+          child: Baslik(baslik: baslik1),
+        ),
+        const Positioned(
+          top: 375,
+          left: 60,
+          right: 60,
+          child: Butonlar(
+            oyunabasla: 'Oyuna Başla',
+            nasiloynanir: 'Nasıl Oynanır',
+            sorugir: 'Soru gir',
+            ayarlar: 'Ayarlar',
+            kutuheight: 50,
+            kutuwidth: 350,
+          ),
+        ),
+        const Positioned(
+          bottom: 20,
+          left: 0,
+          right: 0,
+          child: Icon(
+            Icons.play_arrow_rounded,
+            size: 50,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+}

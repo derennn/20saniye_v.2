@@ -1,0 +1,259 @@
+import 'package:flutter/material.dart';
+import '../bet_ekrani.dart';
+import 'package:yirmibir_saniye/globals.dart';
+import '../geri sayim ekrani/gerisayim_ekrani.dart';
+import 'anabaslik.dart';
+
+class Butonlar extends StatelessWidget {
+  const Butonlar({
+    Key? key,
+    required this.oyunabasla,
+    required this.nasiloynanir,
+    required this.sorugir,
+    required this.ayarlar,
+    required this.kutuheight,
+    required this.kutuwidth,
+  }) : super(key: key);
+
+  final String oyunabasla;
+  final String nasiloynanir;
+  final String sorugir;
+  final String ayarlar;
+  final double kutuheight;
+  final double kutuwidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TrncButon(kutuheight: kutuheight, icerik: oyunabasla),
+        const SizedBox(
+          height: 18,
+        ),
+        GriButon(kutuheight: kutuheight, icerik: nasiloynanir),
+        const SizedBox(
+          height: 18,
+        ),
+        GriButon(kutuheight: kutuheight, icerik: sorugir),
+        const SizedBox(
+          height: 18,
+        ),
+        GriButon(kutuheight: kutuheight, icerik: ayarlar),
+      ],
+    );
+  }
+}
+
+class GriButon extends StatelessWidget {
+  const GriButon({
+    Key? key,
+    required this.kutuheight,
+    required this.icerik,
+  }) : super(key: key);
+
+  final double kutuheight;
+  final String icerik;
+  final List nasiloynanir = const ['Nasıl Oynanır?','Hakem sizsiniz, hangi cevapların kabul edileceğine karar vermek sizin elinizde!','''• Kaç kişi olduğunuzu girin.
+• Tüm oyuncular kendine oyuncu sayısı dahilinde birer sayı seçsin (örneğin 6 kişi oynanıyorsa herkes 1’den 6’ya kadar bir sayı seçsin).
+• Oyun her roundda rastgele 2 kişiyi eşleştirecek. Eşleşen kişiler ekrandaki soruyu gördükten sonra açık artırmaya başlasın.
+• Rakibinizin sayamayacağı bir sayı söylediğini düşündüğünüzde “lie!” diyin ve Başla! butonuna basın.
+• Başla butonuna basıldığında en yüksek sayıyı söyleyen oyuncunun 20 saniyelik süresi başlar. Bu süre içinde dediği kadar sayabilirse bete giren oyuncu, sayamazsa diğer oyuncu kazanır.
+• Kazanan 1 puan alır, sıradaki maç dediğinizde oyun rastgele farklı iki oyuncuyu eşleştirir ve yeni round başlar, toplamda 5 puan olan oyunu kazanır.
+''','• Açık arıtırma sırasında oyuncular uzun süre düşünmeden hızlıca tekliflerini söylemelidir.'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: kutuheight,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: defaultGreyColor),
+      child: TextButton(
+        onPressed: () {
+          if (icerik=='Nasıl Oynanır') {
+            buildShowModalBottomSheet(context);
+            print('nasil oynanir');
+          }
+          else if (icerik=='Soru gir') {
+            buildShowModalBottomSheetSoruGir(context);
+          }
+        },
+        style: TextButton.styleFrom(
+          primary: arkaplanColor,
+        ),
+        child: Text(
+          icerik,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+          ),
+          textScaleFactor: 1.7,
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> buildShowModalBottomSheetSoruGir(BuildContext context) {
+    return showModalBottomSheet(context: context, builder: (context) {
+          return Text('x');
+        },
+        );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            backgroundColor: defaultGreyColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+              ),
+            ),
+            builder: (context) {
+              return Wrap(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20,right: 20,top: 15,bottom: 25),
+                    child: Column(
+                      children: [
+                        Image.asset('images/sliding_line.png', scale: 0.9,),
+                        SizedBox(height: 20),
+                        Text(nasiloynanir[0],
+                          style: TextStyle(fontSize: 34, fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(height: 20),
+                        Text(nasiloynanir[1],
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,height: 1.2),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(text: nasiloynanir[2],
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300,height: 1.2),
+                                    ),
+                                    TextSpan(text: nasiloynanir[3],
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: defaultOrangeColor,height: 1.2),
+
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+        );
+  }
+}
+
+class TrncButon extends StatelessWidget {
+  const TrncButon({
+    Key? key,
+    required this.kutuheight,
+    required this.icerik,
+  }) : super(key: key);
+
+  final double kutuheight;
+  final String icerik;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: kutuheight,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: defaultOrangeColor,),
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, 'BetEkrani');
+        },
+        style: TextButton.styleFrom(
+          primary: Colors.white,
+        ),
+        child: Text(
+          icerik,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+          ),
+          textScaleFactor: 1.7,
+        ),
+      ),
+    );
+  }
+}
+
+
+/*{
+Navigator.push(
+context,
+MaterialPageRoute(
+builder: (context) {
+return BetEkrani();
+},
+),
+);
+},*/
+
+/*
+class GeriSayimEkrani extends StatelessWidget {
+  const GeriSayimEkrani({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: arkaplanColor,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            MenuyeDon(),
+            Padding(
+              padding: const EdgeInsets.only(top:245 ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 230,
+                    padding: EdgeInsets.all(30),
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color:defaultOrangeColor,
+                      shadows: [
+                        BoxShadow(
+                          color:defaultOrangeColor.withOpacity(0.2),
+                          spreadRadius: 5,
+                          blurRadius: 30,
+                        ),
+                      ],
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        '20',
+                        textScaleFactor: 2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/
