@@ -45,27 +45,52 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
         fit: StackFit.expand,
         children: [
           MenuyeDon(),
-          const Positioned(
-            left: 0,
-            right: 0,
-            top: 255,
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 400,
             child: Center(
-              child: Text(
-                'Skor Tablosu',
-                style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child: skorlar.globalSkorTablosuMap[widget.kazanankim] == 5
+                  ? Column(
+                      children: [
+                        Image.asset(
+                          'images/ph_confetti.png',
+                          scale: 0.8,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        FittedBox(
+                          child: Text(
+                            'Oyuncu ${widget.kazanankim} Kazandı!',
+                            style: const TextStyle(
+                              fontSize: 50,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    )
+                  : const Text(
+                      'Skor Tablosu',
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
             ),
           ),
           Positioned(
             left: 30,
             right: 30,
-            top: 350,
+            top: 360,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 6),
+              padding: EdgeInsets.only(
+                top: 10,
+              ),
               decoration: const BoxDecoration(
                 color: defaultGreyColor,
                 borderRadius: BorderRadius.all(
@@ -74,10 +99,12 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
               ),
               child: Column(
                 children: [
-                  for (int i in skorlar.globalSkorTablosuOyuncuSayisiList) SkorTablosuOyuncuIsmi(oyuncuX: skorlar.globalSkorTablosuOyuncuSayisiList[i-1]),
+                  for (int i in skorlar.globalSkorTablosuOyuncuSayisiList)
+                    SkorTablosuOyuncuIsmi(
+                        oyuncuX:
+                            skorlar.globalSkorTablosuOyuncuSayisiList[i - 1]),
                 ],
               ),
-
             ),
           ),
           Positioned(
@@ -85,26 +112,49 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
             left: 0,
             right: 0,
             child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  backgroundColor: defaultOrangeColor,
-                  padding: EdgeInsets.all(20),
-                ),
-                onPressed: () {
-                  print('${skorlar.globalSkorTablosuMap}');
-                  print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
-                  karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: widget.oyuncuAdedi!).oyuncuIsimleriFunc();
-                  OyunaBaslaState().buildShowModalBottomSheetBasla(context, widget.round, widget.oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
-                },
-                child: const Text(
-                  'Sıradaki Maç',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30,
-                      color: Colors.white),
-                ),
-              ),
+              child: skorlar.globalSkorTablosuMap[widget.kazanankim] == 5
+                  ? ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: StadiumBorder(),
+                        backgroundColor: defaultOrangeColor,
+                        padding: EdgeInsets.all(20),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'Yeniden Oyna',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30,
+                            color: Colors.white),
+                      ),
+                    )
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: StadiumBorder(),
+                        backgroundColor: defaultOrangeColor,
+                        padding: EdgeInsets.all(20),
+                      ),
+                      onPressed: () {
+                        print('${skorlar.globalSkorTablosuMap}');
+                        print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
+                        karsilasanOyuncularList = OyuncuSayilariClass(
+                                oyuncuadedi: widget.oyuncuAdedi!)
+                            .oyuncuIsimleriFunc();
+                        OyunaBaslaState().buildShowModalBottomSheetBasla(
+                            context,
+                            widget.round,
+                            widget.oyuncuAdedi,
+                            karsilasanOyuncularList[0],
+                            karsilasanOyuncularList[1]);
+                      },
+                      child: const Text(
+                        'Sıradaki Maç',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30,
+                            color: Colors.white),
+                      ),
+                    ),
             ),
           ),
         ],
@@ -113,7 +163,7 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
   }
 }
 
-class SkorTablosuOyuncuIsmi extends StatelessWidget {
+class SkorTablosuOyuncuIsmi extends StatefulWidget {
   SkorTablosuOyuncuIsmi({
     required this.oyuncuX,
     Key? key,
@@ -122,29 +172,159 @@ class SkorTablosuOyuncuIsmi extends StatelessWidget {
   int oyuncuX;
 
   @override
+  State<SkorTablosuOyuncuIsmi> createState() => _SkorTablosuOyuncuIsmiState();
+}
+
+class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
+  final playerNameController = TextEditingController();
+  bool tamamButtonState = false;
+  String? updatedPlayerName;
+
+  @override
+  void dispose() {
+    playerNameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    playerNameController.addListener(() {
+      setState(() {
+        tamamButtonState = playerNameController.text.isNotEmpty;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        buildShowModalBottomSheet(context);
+      },
       style: TextButton.styleFrom(
-        splashFactory: NoSplash.splashFactory,
-        padding: EdgeInsets.symmetric(horizontal: 12)
-      ),
-      child: Row(
+          splashFactory: NoSplash.splashFactory,
+          padding: EdgeInsets.only(left: 15, right: 30)),
+      child: Column(
         children: [
-          const Icon(
-            Icons.edit,
-            color: Colors.black,
-            size: 26,
+          Row(
+            children: [
+              const Icon(
+                Icons.edit,
+                color: Colors.black,
+                size: 26,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                updatedPlayerName==null ?
+                'Oyuncu ${widget.oyuncuX}:' : '$updatedPlayerName',
+                style: TextStyle(color: Colors.black, fontSize: 24),
+              ),
+              Spacer(),
+              Text(
+                '${skorlar.globalSkorTablosuMap[widget.oyuncuX]}',
+                style: TextStyle(color: Colors.black, fontSize: 28),
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 5,
-          ),
-          Text(
-            'Oyuncu $oyuncuX: ${skorlar.globalSkorTablosuMap[oyuncuX]}',
-            style: TextStyle(color: Colors.black, fontSize: 24),
-          ),
+          widget.oyuncuX == skorlar.globalSkorTablosuOyuncuSayisiList.last
+              ? const SizedBox(
+                  height: 10,
+                )
+              : const Divider(height: 10, thickness: 1.5)
         ],
       ),
     );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: defaultGreyColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setSheetState) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Oyuncu Adını Değiştir',
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        width: 340,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        child: TextField(
+                          controller: playerNameController,
+                          onChanged: (value) {
+                            setSheetState(() {});
+                          },
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 10, bottom: 5),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      ElevatedButton(
+                        onPressed: tamamButtonState ?
+                            () {
+                          updatedPlayerName = playerNameController.text;
+                          Navigator.pop(context);
+                            }
+                        : null,
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(120, 45),
+                          backgroundColor: defaultOrangeColor,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                        ),
+                        child: const Text(
+                          'Tamam',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 22,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+      },
+    ).whenComplete(() {
+      playerNameController.clear();
+    });
   }
 }

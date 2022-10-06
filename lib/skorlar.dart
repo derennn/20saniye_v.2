@@ -1,6 +1,6 @@
 library skorlar;
 
-late List<int> globalSkorTablosuOyuncuSayisiList;
+List<int> globalSkorTablosuOyuncuSayisiList = [];
 late Map globalSkorTablosuMap;
 
 Map<int, int> globalSkorTablosuFunc () {
