@@ -11,7 +11,7 @@ class ScoreBoardEkrani extends StatefulWidget {
     this.oyuncuAdedi,
     this.karsilasanOyuncu1,
     this.karsilasanOyuncu2,
-    this.kazanankim,
+    required this.kazanankim,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class ScoreBoardEkrani extends StatefulWidget {
   int? oyuncuAdedi;
   int? karsilasanOyuncu1;
   int? karsilasanOyuncu2;
-  int? kazanankim;
+  int kazanankim;
 
   @override
   State<ScoreBoardEkrani> createState() => _ScoreBoardEkraniState();
@@ -27,11 +27,10 @@ class ScoreBoardEkrani extends StatefulWidget {
 
 class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
   late List<int> karsilasanOyuncularList;
-  late List<int> skorTablosuOyuncuSayisiList = List<int>.generate(widget.oyuncuAdedi!, (int i) => i + 1);
 
   @override
   void initState() {
-    skorlar.globalSkorTablosuOyuncuSayisiList = skorTablosuOyuncuSayisiList;
+    print('${skorlar.globalSkorTablosuMap}');
     skorlar.globalSkorTablosuMap[widget.kazanankim]++;
     print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
     print('${skorlar.globalSkorTablosuMap}');
@@ -75,7 +74,7 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
               ),
               child: Column(
                 children: [
-                  for (int i in skorTablosuOyuncuSayisiList) SkorTablosuOyuncuIsmi(oyuncuX: skorTablosuOyuncuSayisiList[i-1]),
+                  for (int i in skorlar.globalSkorTablosuOyuncuSayisiList) SkorTablosuOyuncuIsmi(oyuncuX: skorlar.globalSkorTablosuOyuncuSayisiList[i-1]),
                 ],
               ),
 
@@ -93,6 +92,8 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
                   padding: EdgeInsets.all(20),
                 ),
                 onPressed: () {
+                  print('${skorlar.globalSkorTablosuMap}');
+                  print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
                   karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: widget.oyuncuAdedi!).oyuncuIsimleriFunc();
                   OyunaBaslaState().buildShowModalBottomSheetBasla(context, widget.round, widget.oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
                 },

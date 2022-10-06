@@ -180,7 +180,7 @@ class _GeriSayimEkraniState extends State<GeriSayimEkrani> {
                               oyuncuAdedi: widget.oyuncuAdedi,
                               karsilasanOyuncu1: widget.karsilasanOyuncu1,
                               karsilasanOyuncu2: widget.karsilasanOyuncu2,
-                              kazanankim: widget.karsilasanOyuncu1,
+                              kazanankim: widget.karsilasanOyuncu1!,
                             );
                           },
                         ),
@@ -217,7 +217,7 @@ class _GeriSayimEkraniState extends State<GeriSayimEkrani> {
                               oyuncuAdedi: widget.oyuncuAdedi,
                               karsilasanOyuncu1: widget.karsilasanOyuncu1,
                               karsilasanOyuncu2: widget.karsilasanOyuncu2,
-                              kazanankim: widget.karsilasanOyuncu2,
+                              kazanankim: widget.karsilasanOyuncu2!,
                             );
                           },
                         ),

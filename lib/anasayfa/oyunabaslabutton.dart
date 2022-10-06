@@ -123,6 +123,9 @@ class OyunaBaslaState extends State<OyunaBasla> {
                               ? () {
                                     oyuncuAdedi = int.parse(oyuncusayisiController.text);
                                     karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: oyuncuAdedi).oyuncuIsimleriFunc();
+                                    skorlar.globalSkorTablosuOyuncuSayisiList = List<int>.generate(oyuncuAdedi!, (int index) => index + 1);
+                                    skorlar.globalSkorTablosuMap = skorlar.globalSkorTablosuFunc();
+                                    print('${skorlar.globalSkorTablosuMap}');
                                     buildShowModalBottomSheetBasla(context, startingRound, oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
                                 }
                               : null,
