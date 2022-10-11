@@ -1,9 +1,8 @@
 import 'dart:math';
 
-List<String> listoflists =[];
+List<String> listoflists = [];
 
 class OyuncuSayilariClass {
-
   int oyuncuadedi;
 
   OyuncuSayilariClass({required this.oyuncuadedi});
@@ -11,7 +10,6 @@ class OyuncuSayilariClass {
   Random random = Random();
 
   List<int> oyuncuIsimleriFunc() {
-
     List<int> oyunculist = [];
     String kombinasyon1;
     String kombinasyon2;
@@ -21,32 +19,33 @@ class OyuncuSayilariClass {
     for (int i = 1; i <= oyuncuadedi; i++) {
       oyuncuAdediFaktoriyel *= i;
     }
-    for (int i = 1; i <= oyuncuadedi-2; i++) {
+    for (int i = 1; i <= oyuncuadedi - 2; i++) {
       oyuncuAdediKombBolen *= i;
     }
-    double oyuncuAdediIkiliKombinasyon = oyuncuAdediFaktoriyel/oyuncuAdediKombBolen;
+    double oyuncuAdediIkiliKombinasyon =
+        oyuncuAdediFaktoriyel / oyuncuAdediKombBolen;
 
     while (true) {
       oyunculist.clear();
-      int random1 = random.nextInt(oyuncuadedi)+1;
+      int random1 = random.nextInt(oyuncuadedi) + 1;
       oyunculist.add(random1);
-      int random2 = random.nextInt(oyuncuadedi)+1;
+      int random2 = random.nextInt(oyuncuadedi) + 1;
       oyunculist.add(random2);
-      kombinasyon1 ='[$random1,$random2]';
-      kombinasyon2 ='[$random2,$random1]';
+      kombinasyon1 = '[$random1,$random2]';
+      kombinasyon2 = '[$random2,$random1]';
       if (oyuncuAdediIkiliKombinasyon.toInt() == listoflists.length) {
 //       print('${listoflists.length} yukaridaki');
-       listoflists.clear();
+        listoflists.clear();
       } else {
         if (listoflists.contains(kombinasyon1)) {
-        print('infinity loop');
-        continue;
-      } else if (listoflists.contains(kombinasyon2)) {
-        print('infinity poop');
-        continue;
+          print('iceriyor 1');
+          continue;
+        } else if (listoflists.contains(kombinasyon2)) {
+          print('iceriyor 2');
+          continue;
+        }
       }
-      }
-      if (random1!=random2) {
+      if (random1 != random2) {
         break;
       }
     }

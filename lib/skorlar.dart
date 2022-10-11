@@ -10,3 +10,5 @@ Map<int, int> globalSkorTablosuFunc () {
   };
   return tablo;
 }
+
+Map updatedPlayerNames = {};

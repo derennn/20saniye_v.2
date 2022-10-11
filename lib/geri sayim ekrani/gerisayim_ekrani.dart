@@ -3,6 +3,7 @@ import 'package:yirmibir_saniye/globals.dart';
 import 'gerisayim_sayaci.dart';
 import 'package:yirmibir_saniye/scoreboard_ekrani.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
+import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
 
 class GeriSayimEkrani extends StatefulWidget {
   GeriSayimEkrani({
@@ -195,7 +196,7 @@ class _GeriSayimEkraniState extends State<GeriSayimEkrani> {
                       ),
                     ),
                     child: Text(
-                      'Oyuncu ${widget.karsilasanOyuncu1}',
+                      '${skorlar.updatedPlayerNames.containsKey(widget.karsilasanOyuncu1) ? skorlar.updatedPlayerNames[widget.karsilasanOyuncu1] : 'Oyuncu ${widget.karsilasanOyuncu1}'}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 22,
@@ -232,7 +233,7 @@ class _GeriSayimEkraniState extends State<GeriSayimEkrani> {
                       ),
                     ),
                     child: Text(
-                      'Oyuncu ${widget.karsilasanOyuncu2}',
+                      '${skorlar.updatedPlayerNames.containsKey(widget.karsilasanOyuncu2) ? skorlar.updatedPlayerNames[widget.karsilasanOyuncu2] : 'Oyuncu ${widget.karsilasanOyuncu2}'}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 22,

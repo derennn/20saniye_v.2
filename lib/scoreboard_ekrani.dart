@@ -109,25 +109,11 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
           ),
           Positioned(
             bottom: 30,
-            left: 0,
-            right: 0,
+            left: 80,
+            right: 80,
             child: Center(
               child: skorlar.globalSkorTablosuMap[widget.kazanankim] == 5
-                  ? ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: StadiumBorder(),
-                        backgroundColor: defaultOrangeColor,
-                        padding: EdgeInsets.all(20),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Yeniden Oyna',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 30,
-                            color: Colors.white),
-                      ),
-                    )
+                  ? OyunaBasla(buttonName: 'Yeniden Oyna')
                   : ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),
@@ -151,7 +137,7 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
                         'Sıradaki Maç',
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.white),
                       ),
                     ),
@@ -178,7 +164,6 @@ class SkorTablosuOyuncuIsmi extends StatefulWidget {
 class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
   final playerNameController = TextEditingController();
   bool tamamButtonState = false;
-  String? updatedPlayerName;
 
   @override
   void dispose() {
@@ -219,8 +204,8 @@ class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
                 width: 5,
               ),
               Text(
-                updatedPlayerName==null ?
-                'Oyuncu ${widget.oyuncuX}:' : '$updatedPlayerName',
+                skorlar.updatedPlayerNames.containsKey(widget.oyuncuX) ?
+                '${skorlar.updatedPlayerNames[widget.oyuncuX]}' : 'Oyuncu ${widget.oyuncuX}:',
                 style: TextStyle(color: Colors.black, fontSize: 24),
               ),
               Spacer(),
@@ -296,7 +281,7 @@ class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
                       ElevatedButton(
                         onPressed: tamamButtonState ?
                             () {
-                          updatedPlayerName = playerNameController.text;
+                          skorlar.updatedPlayerNames[widget.oyuncuX] = playerNameController.text;
                           Navigator.pop(context);
                             }
                         : null,
