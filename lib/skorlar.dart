@@ -1,7 +1,14 @@
 library skorlar;
 
-late List<int> globalSkorTablosuOyuncuSayisiList;
+List<int> globalSkorTablosuOyuncuSayisiList = [];
+late Map globalSkorTablosuMap;
 
-late Map globalSkorTablosuMap = {
-  for (var i in globalSkorTablosuOyuncuSayisiList) globalSkorTablosuOyuncuSayisiList[i-1] : 0,
-};
+Map<int, int> globalSkorTablosuFunc () {
+  late Map<int, int> tablo = {
+    for (var i in globalSkorTablosuOyuncuSayisiList) globalSkorTablosuOyuncuSayisiList[i -
+        1]: 0,
+  };
+  return tablo;
+}
+
+Map updatedPlayerNames = {};

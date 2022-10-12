@@ -6,8 +6,11 @@ import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
 
 class OyunaBasla extends StatefulWidget {
   const OyunaBasla({
+    required this.buttonName,
     Key? key,
   }) : super(key: key);
+
+  final String buttonName;
 
   @override
   State<OyunaBasla> createState() => OyunaBaslaState();
@@ -52,12 +55,13 @@ class OyunaBaslaState extends State<OyunaBasla> {
         style: TextButton.styleFrom(
           foregroundColor: Colors.white,
         ),
-        child: const Text(
-          'Oyuna Başla',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
+        child: Text(
+          '${widget.buttonName}',
+          style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 25,
+              color: Colors.white,
           ),
-          textScaleFactor: 1.7,
         ),
       ),
     );
@@ -121,9 +125,23 @@ class OyunaBaslaState extends State<OyunaBasla> {
                         ElevatedButton(
                           onPressed: baslaButonuState
                               ? () {
-                                    oyuncuAdedi = int.parse(oyuncusayisiController.text);
-                                    karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: oyuncuAdedi).oyuncuIsimleriFunc();
-                                    buildShowModalBottomSheetBasla(context, startingRound, oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
+                                  oyuncuAdedi =
+                                      int.parse(oyuncusayisiController.text);
+                                  karsilasanOyuncularList = OyuncuSayilariClass(
+                                          oyuncuadedi: oyuncuAdedi)
+                                      .oyuncuIsimleriFunc();
+                                  skorlar.globalSkorTablosuOyuncuSayisiList =
+                                      List<int>.generate(oyuncuAdedi!,
+                                          (int index) => index + 1);
+                                  skorlar.globalSkorTablosuMap =
+                                      skorlar.globalSkorTablosuFunc();
+                                  print('${skorlar.globalSkorTablosuMap}');
+                                  buildShowModalBottomSheetBasla(
+                                      context,
+                                      startingRound,
+                                      oyuncuAdedi,
+                                      karsilasanOyuncularList[0],
+                                      karsilasanOyuncularList[1]);
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
@@ -160,7 +178,8 @@ class OyunaBaslaState extends State<OyunaBasla> {
     );
   }
 
-  Future<dynamic> buildShowModalBottomSheetBasla(BuildContext context, int round, int? oyuncuAdedi, int? oyuncu1, int? oyuncu2) {
+  Future<dynamic> buildShowModalBottomSheetBasla(BuildContext context,
+      int round, int? oyuncuAdedi, int? oyuncu1, int? oyuncu2) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -191,7 +210,10 @@ class OyunaBaslaState extends State<OyunaBasla> {
                       height: 20,
                     ),
                     Text(
-                      'Oyuncu $oyuncu1 vs Oyuncu $oyuncu2',
+                      //'${country.data.last.population != null ? country.data.last.population : 'noData'}',
+                      '${skorlar.updatedPlayerNames.containsKey(oyuncu1) ? skorlar.updatedPlayerNames[oyuncu1] : 'Oyuncu ${oyuncu1}'}'
+                      ' vs '
+                      '${skorlar.updatedPlayerNames.containsKey(oyuncu2) ? skorlar.updatedPlayerNames[oyuncu2] : 'Oyuncu ${oyuncu2}'}',
                       style:
                           TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
                     ),
@@ -200,9 +222,15 @@ class OyunaBaslaState extends State<OyunaBasla> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) {
-                              return BetEkrani(round: round, oyuncuAdedi: oyuncuAdedi, karsilasanOyuncu1: oyuncu1, karsilasanOyuncu2: oyuncu2);
+                              return BetEkrani(
+                                  round: round,
+                                  oyuncuAdedi: oyuncuAdedi,
+                                  karsilasanOyuncu1: oyuncu1,
+                                  karsilasanOyuncu2: oyuncu2);
                             },
                           ),
                         );
@@ -229,7 +257,6 @@ class OyunaBaslaState extends State<OyunaBasla> {
           ],
         );
       },
-    ).whenComplete(
-        () => Navigator.of(context).popUntil((route) => route.isFirst));
+    );
   }
 }

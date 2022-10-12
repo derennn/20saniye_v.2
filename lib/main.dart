@@ -81,7 +81,7 @@ class Body extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              OyunaBasla(),
+              OyunaBasla(buttonName: 'Oyuna Başla'),
               SizedBox(
                 height: 18,
               ),

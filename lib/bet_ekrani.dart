@@ -3,6 +3,7 @@ import 'package:yirmibir_saniye/geri%20sayim%20ekrani/gerisayim_sayaci.dart';
 import 'package:yirmibir_saniye/globals.dart';
 import 'geri sayim ekrani/gerisayim_ekrani.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
+import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
 
 class BetEkrani extends StatefulWidget {
   BetEkrani({
@@ -179,7 +180,9 @@ class Karsilasma extends StatelessWidget {
           height: 15,
         ),
         Text(
-          'Oyuncu ${karsilasanOyuncu1} vs Oyuncu ${karsilasanOyuncu2}',
+          '${skorlar.updatedPlayerNames.containsKey(karsilasanOyuncu1) ? skorlar.updatedPlayerNames[karsilasanOyuncu1] : 'Oyuncu ${karsilasanOyuncu1}'}'
+          ' vs '
+          '${skorlar.updatedPlayerNames.containsKey(karsilasanOyuncu2) ? skorlar.updatedPlayerNames[karsilasanOyuncu2] : 'Oyuncu ${karsilasanOyuncu2}'}',
           style: TextStyle(color: Colors.white,
             fontWeight: FontWeight.w300,
             fontSize: 26,

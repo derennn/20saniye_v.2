@@ -129,7 +129,7 @@ class GeriSayimState extends State<GeriSayim> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return ScoreBoardEkrani(round: widget.round,oyuncuAdedi: widget.oyuncuAdedi,karsilasanOyuncu1: widget.karsilasanOyuncu1, karsilasanOyuncu2: widget.karsilasanOyuncu2,);
+                            return ScoreBoardEkrani(round: widget.round,oyuncuAdedi: widget.oyuncuAdedi,karsilasanOyuncu1: widget.karsilasanOyuncu1, karsilasanOyuncu2: widget.karsilasanOyuncu2,kazanankim: widget.karsilasanOyuncu1!,);
                           },
                         ),
                       );

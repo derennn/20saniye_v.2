@@ -18,6 +18,7 @@ class MenuyeDon extends StatelessWidget {
           skorlar.globalSkorTablosuOyuncuSayisiList.clear();
           listoflists.clear();
           Navigator.of(context).popUntil((route) => route.isFirst);
+          skorlar.updatedPlayerNames.clear();
         },
         child: Row(
           children: [
