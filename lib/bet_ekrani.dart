@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yirmibir_saniye/geri%20sayim%20ekrani/gerisayim_sayaci.dart';
-import 'package:yirmibir_saniye/globals.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
 import 'geri sayim ekrani/gerisayim_ekrani.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
-import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
+import 'package:yirmibir_saniye/globals/skorlar.dart' as skorlar;
 
 class BetEkrani extends StatefulWidget {
   BetEkrani({

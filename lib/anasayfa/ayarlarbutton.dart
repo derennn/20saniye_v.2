@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yirmibir_saniye/globals.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
-import 'package:yirmibir_saniye/categories.dart' as categories;
+import 'package:yirmibir_saniye/globals/categories.dart' as categories;
 
 class Ayarlar extends StatelessWidget {
   const Ayarlar({

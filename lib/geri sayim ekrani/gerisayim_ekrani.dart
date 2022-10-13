@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:yirmibir_saniye/globals.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
 import 'gerisayim_sayaci.dart';
 import 'package:yirmibir_saniye/scoreboard_ekrani.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
-import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
+import 'package:yirmibir_saniye/globals/skorlar.dart' as skorlar;
 
 class GeriSayimEkrani extends StatefulWidget {
   GeriSayimEkrani({

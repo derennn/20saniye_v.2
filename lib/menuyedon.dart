@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'oyuncusayilari.dart';
-import 'skorlar.dart' as skorlar;
+import 'globals/oyuncusayilari.dart';
+import 'globals/skorlar.dart' as skorlar;
 import 'dart:math' as math;
 
 class MenuyeDon extends StatelessWidget {
