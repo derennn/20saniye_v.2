@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yirmibir_saniye/anasayfa/oyunabaslabutton.dart';
-import 'package:yirmibir_saniye/globals.dart';
-import 'package:yirmibir_saniye/oyuncusayilari.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
+import 'package:yirmibir_saniye/globals/oyuncusayilari.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
-import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
+import 'package:yirmibir_saniye/globals/skorlar.dart' as skorlar;
 
 class ScoreBoardEkrani extends StatefulWidget {
   ScoreBoardEkrani({
@@ -57,7 +57,7 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
                           'images/ph_confetti.png',
                           scale: 0.8,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         FittedBox(
@@ -88,22 +88,35 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
             right: 30,
             top: 360,
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 10,
               ),
+              height: skorlar.globalSkorTablosuOyuncuSayisiList.length>4 ? 200 : null,
               decoration: const BoxDecoration(
                 color: defaultGreyColor,
                 borderRadius: BorderRadius.all(
                   Radius.circular(25),
                 ),
               ),
-              child: Column(
-                children: [
-                  for (int i in skorlar.globalSkorTablosuOyuncuSayisiList)
-                    SkorTablosuOyuncuIsmi(
-                        oyuncuX:
-                            skorlar.globalSkorTablosuOyuncuSayisiList[i - 1]),
-                ],
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: RawScrollbar(
+                  mainAxisMargin: 20,
+                  thumbVisibility: true,
+                  thumbColor: arkaplanColor.withOpacity(0.8),
+                  radius: Radius.circular(3),
+                  child: ListView(
+                    padding: EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    children: [
+                      for (int i in skorlar.globalSkorTablosuOyuncuSayisiList)
+                        SkorTablosuOyuncuIsmi(
+                            oyuncuX:
+                                skorlar.globalSkorTablosuOyuncuSayisiList[i - 1]),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -123,15 +136,8 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
                       onPressed: () {
                         print('${skorlar.globalSkorTablosuMap}');
                         print('${skorlar.globalSkorTablosuOyuncuSayisiList}');
-                        karsilasanOyuncularList = OyuncuSayilariClass(
-                                oyuncuadedi: widget.oyuncuAdedi!)
-                            .oyuncuIsimleriFunc();
-                        OyunaBaslaState().buildShowModalBottomSheetBasla(
-                            context,
-                            widget.round,
-                            widget.oyuncuAdedi,
-                            karsilasanOyuncularList[0],
-                            karsilasanOyuncularList[1]);
+                        karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: widget.oyuncuAdedi!).oyuncuIsimleriFunc();
+                        OyunaBaslaState().buildShowModalBottomSheetBasla(context, widget.round, widget.oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
                       },
                       child: const Text(
                         'Sıradaki Maç',
@@ -190,7 +196,7 @@ class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
       },
       style: TextButton.styleFrom(
           splashFactory: NoSplash.splashFactory,
-          padding: EdgeInsets.only(left: 15, right: 30)),
+          padding: const EdgeInsets.only(left: 15, right: 30)),
       child: Column(
         children: [
           Row(
@@ -206,20 +212,20 @@ class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
               Text(
                 skorlar.updatedPlayerNames.containsKey(widget.oyuncuX) ?
                 '${skorlar.updatedPlayerNames[widget.oyuncuX]}' : 'Oyuncu ${widget.oyuncuX}:',
-                style: TextStyle(color: Colors.black, fontSize: 24),
+                style: const TextStyle(color: Colors.black, fontSize: 24),
               ),
-              Spacer(),
+              const Spacer(),
               Text(
                 '${skorlar.globalSkorTablosuMap[widget.oyuncuX]}',
-                style: TextStyle(color: Colors.black, fontSize: 28),
+                style: const TextStyle(color: Colors.black, fontSize: 28),
               ),
             ],
           ),
-          widget.oyuncuX == skorlar.globalSkorTablosuOyuncuSayisiList.last
-              ? const SizedBox(
-                  height: 10,
-                )
-              : const Divider(height: 10, thickness: 1.5)
+          widget.oyuncuX == skorlar.globalSkorTablosuOyuncuSayisiList.last ?
+            const SizedBox(
+              height: 10,
+              ) :
+            const Divider(height: 10, thickness: 1.5)
         ],
       ),
     );

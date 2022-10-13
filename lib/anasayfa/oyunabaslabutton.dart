@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:yirmibir_saniye/bet_ekrani.dart';
-import 'package:yirmibir_saniye/globals.dart';
-import 'package:yirmibir_saniye/oyuncusayilari.dart';
-import 'package:yirmibir_saniye/skorlar.dart' as skorlar;
+import 'package:yirmibir_saniye/globals/globals.dart';
+import 'package:yirmibir_saniye/globals/oyuncusayilari.dart';
+import 'package:yirmibir_saniye/scoreboard_ekrani.dart';
+import 'package:yirmibir_saniye/globals/skorlar.dart' as skorlar;
 
 class OyunaBasla extends StatefulWidget {
   const OyunaBasla({
@@ -33,9 +35,14 @@ class OyunaBaslaState extends State<OyunaBasla> {
   void initState() {
     super.initState();
     oyuncusayisiController.addListener(() {
-      setState(() {
-        baslaButonuState = oyuncusayisiController.text.isNotEmpty;
-      });
+      if (oyuncusayisiController.text.isNotEmpty && int.parse(oyuncusayisiController.text)>1 && int.parse(oyuncusayisiController.text)<21) {
+        setState(() {
+          baslaButonuState = true;
+        });
+      }
+      else {
+        baslaButonuState = false;
+      }
     });
   }
 
@@ -107,6 +114,10 @@ class OyunaBaslaState extends State<OyunaBasla> {
                               color: Colors.white),
                           child: TextField(
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(10),
+                            ],
                             controller: oyuncusayisiController,
                             onChanged: (value) {
                               setSheetState(() {});
@@ -125,23 +136,13 @@ class OyunaBaslaState extends State<OyunaBasla> {
                         ElevatedButton(
                           onPressed: baslaButonuState
                               ? () {
-                                  oyuncuAdedi =
-                                      int.parse(oyuncusayisiController.text);
-                                  karsilasanOyuncularList = OyuncuSayilariClass(
-                                          oyuncuadedi: oyuncuAdedi)
-                                      .oyuncuIsimleriFunc();
-                                  skorlar.globalSkorTablosuOyuncuSayisiList =
-                                      List<int>.generate(oyuncuAdedi!,
-                                          (int index) => index + 1);
-                                  skorlar.globalSkorTablosuMap =
-                                      skorlar.globalSkorTablosuFunc();
+                                  oyuncuAdedi = int.parse(oyuncusayisiController.text);
+                                  karsilasanOyuncularList = OyuncuSayilariClass(oyuncuadedi: oyuncuAdedi).oyuncuIsimleriFunc();
+                                  skorlar.globalSkorTablosuOyuncuSayisiList = List<int>.generate(oyuncuAdedi!, (int index) => index + 1);
+                                  skorlar.globalSkorTablosuMap = skorlar.globalSkorTablosuFunc();
                                   print('${skorlar.globalSkorTablosuMap}');
-                                  buildShowModalBottomSheetBasla(
-                                      context,
-                                      startingRound,
-                                      oyuncuAdedi,
-                                      karsilasanOyuncularList[0],
-                                      karsilasanOyuncularList[1]);
+                                  buildShowModalBottomSheetBasla(context, startingRound, oyuncuAdedi, karsilasanOyuncularList[0], karsilasanOyuncularList[1]);
+                                  skorlar.updatedPlayerNames.clear();
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(

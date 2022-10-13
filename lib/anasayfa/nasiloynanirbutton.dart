@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yirmibir_saniye/globals.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
 
 class NasilOynanir extends StatelessWidget {
   const NasilOynanir({

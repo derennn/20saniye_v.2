@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'anasayfa/oyunabaslabutton.dart';
-import 'package:yirmibir_saniye/globals.dart';
+import 'package:yirmibir_saniye/globals/globals.dart';
 import 'anasayfa/nasiloynanirbutton.dart';
 import 'anasayfa/sorugirbutton.dart';
 import 'anasayfa/ayarlarbutton.dart';
