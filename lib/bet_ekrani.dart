@@ -3,7 +3,9 @@ import 'package:yirmibir_saniye/geri%20sayim%20ekrani/gerisayim_sayaci.dart';
 import 'package:yirmibir_saniye/globals/globals.dart';
 import 'geri sayim ekrani/gerisayim_ekrani.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
+import 'dart:math';
 import 'package:yirmibir_saniye/globals/skorlar.dart' as skorlar;
+import 'package:yirmibir_saniye/globals/categories.dart' as categories;
 
 class BetEkrani extends StatefulWidget {
   BetEkrani({
@@ -26,6 +28,12 @@ class BetEkrani extends StatefulWidget {
 class _BetEkraniState extends State<BetEkrani> {
   int kalanhak = 2;
 
+  @override
+  void initState() {
+    super.initState();
+    QuestionClass().questionBringerFunc();
+  }
+
   void nextround() {
     setState(() {
       widget.round++;
@@ -36,6 +44,7 @@ class _BetEkraniState extends State<BetEkrani> {
     while (kalanhak > 0) {
       setState(() {
         kalanhak--;
+        QuestionClass().questionBringerFunc();
       });
       break;
     }
@@ -58,7 +67,11 @@ class _BetEkraniState extends State<BetEkrani> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Karsilasma(round: widget.round, karsilasanOyuncu1: widget.karsilasanOyuncu1, karsilasanOyuncu2: widget.karsilasanOyuncu2,),
+                Karsilasma(
+                  round: widget.round,
+                  karsilasanOyuncu1: widget.karsilasanOyuncu1,
+                  karsilasanOyuncu2: widget.karsilasanOyuncu2,
+                ),
                 SoruKutucugu(size: size),
                 SoruyuAtla(kalanhak: kalanhak, kalanhakfunc: kalanhakfunc),
               ],
@@ -76,12 +89,17 @@ class _BetEkraniState extends State<BetEkrani> {
                   padding: EdgeInsets.all(20),
                 ),
                 onPressed: () {
-                  GeriSayimState.bittiButonunaBasildiMi=1;
+                  GeriSayimState.bittiButonunaBasildiMi = 1;
                   nextround();
-                  Navigator.push(context,
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return GeriSayimEkrani(round: widget.round, oyuncuAdedi: widget.oyuncuAdedi, karsilasanOyuncu1: widget.karsilasanOyuncu1, karsilasanOyuncu2: widget.karsilasanOyuncu2);
+                        return GeriSayimEkrani(
+                            round: widget.round,
+                            oyuncuAdedi: widget.oyuncuAdedi,
+                            karsilasanOyuncu1: widget.karsilasanOyuncu1,
+                            karsilasanOyuncu2: widget.karsilasanOyuncu2);
                       },
                     ),
                   );
@@ -183,7 +201,8 @@ class Karsilasma extends StatelessWidget {
           '${skorlar.updatedPlayerNames.containsKey(karsilasanOyuncu1) ? skorlar.updatedPlayerNames[karsilasanOyuncu1] : 'Oyuncu ${karsilasanOyuncu1}'}'
           ' vs '
           '${skorlar.updatedPlayerNames.containsKey(karsilasanOyuncu2) ? skorlar.updatedPlayerNames[karsilasanOyuncu2] : 'Oyuncu ${karsilasanOyuncu2}'}',
-          style: TextStyle(color: Colors.white,
+          style: TextStyle(
+            color: Colors.white,
             fontWeight: FontWeight.w300,
             fontSize: 26,
           ),
@@ -217,15 +236,15 @@ class SoruKutucugu extends StatelessWidget {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   Text(
-                    '20 Saniye içinde kaç tane renk sayabilirsiniz?',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.8,
+                  '${QuestionClass.questionOnScreen}',
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.8,
                   ),
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Açık artırma başlasın...',
                     textScaleFactor: 1.2,
                   ),
@@ -239,5 +258,31 @@ class SoruKutucugu extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class QuestionClass {
+
+  static int? questionTopic;
+  static int? questionItself;
+  static String? questionOnScreen;
+
+  Random random = Random();
+
+  void questionBringerFunc() {
+    while (true) {
+      questionTopic = random.nextInt(categories.questions.length);
+      if (categories.categoriesMap[questionTopic] == true) {
+        break;
+      }
+    }
+    questionItself = random.nextInt(categories.questions[questionTopic].length);
+    try {
+      questionOnScreen = categories.questions[questionTopic].firstWhere((x) => categories.questionsAlreadyAsked.contains(x) == false);
+    } catch (e) {
+      categories.questionsAlreadyAsked.clear();
+      questionOnScreen = categories.questions[questionTopic].firstWhere((x) => categories.questionsAlreadyAsked.contains(x) == false);
+    }
+    categories.questionsAlreadyAsked.add(questionOnScreen);
   }
 }

@@ -4,6 +4,8 @@ import 'package:yirmibir_saniye/globals/globals.dart';
 import 'anasayfa/nasiloynanirbutton.dart';
 import 'anasayfa/sorugirbutton.dart';
 import 'anasayfa/ayarlarbutton.dart';
+import 'package:yirmibir_saniye/globals/categories.dart' as categories;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +41,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    _categoriesToggle();
+  }
+
+  Future<void> _categoriesToggle() async {
+    final prefs = await SharedPreferences.getInstance();
+    for (var index = 0; index < categories.categoriesMap.length; index++) {
+      categories.categoriesMap[index] = (prefs.getBool('$index') ?? true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -61,6 +77,8 @@ class Body extends StatelessWidget {
   }) : super(key: key);
 
   final String baslik1;
+
+
 
   @override
   Widget build(BuildContext context) {

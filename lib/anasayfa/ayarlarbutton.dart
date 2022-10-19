@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yirmibir_saniye/globals/globals.dart';
 import 'package:yirmibir_saniye/menuyedon.dart';
 import 'package:yirmibir_saniye/globals/categories.dart' as categories;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Ayarlar extends StatelessWidget {
   const Ayarlar({
@@ -24,7 +25,7 @@ class Ayarlar extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return AyarlarSayfasi();
+                return const AyarlarSayfasi();
               },
             ),
           );
@@ -61,7 +62,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          MenuyeDon(),
+          const MenuyeDon(),
           const Positioned(
             top: 65,
             left: 0,
@@ -83,16 +84,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
               ),
             ),
           ),
-          Categories(category: 'Spor', topgap: 0),
-          Categories(category: 'Bilgisayar Oyunları', topgap: 1),
-          Categories(category: 'Sanat', topgap: 2),
-          Categories(category: 'Coğrafya', topgap: 3),
-          Categories(category: 'Bilim', topgap: 4),
-          Categories(category: 'Magazin', topgap: 5),
-          Categories(category: 'Genel Kültür', topgap: 6),
-          Categories(category: 'Siyaset', topgap: 7),
-          Categories(category: 'Saçma Sorular', topgap: 8),
-          Categories(category: 'Senin Soruların', topgap: 9),
+          Categories(category: 0, topgap: 0),
+          Categories(category: 1, topgap: 1),
+          Categories(category: 2, topgap: 2),
+          Categories(category: 3, topgap: 3),
+          Categories(category: 4, topgap: 4),
+          Categories(category: 5, topgap: 5),
+          Categories(category: 6, topgap: 6),
+          Categories(category: 7, topgap: 7),
+          Categories(category: 8, topgap: 8),
+          Categories(category: 9, topgap: 9),
         ],
       ),
     );
@@ -106,7 +107,7 @@ class Categories extends StatefulWidget {
     required this.topgap,
   }) : super(key: key);
 
-  String category;
+  int category;
   double topgap;
 
   @override
@@ -114,6 +115,21 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+
+  @override
+  void initState() {
+    super.initState();
+    print('${categories.categoriesMap[widget.category]}');
+  }
+
+  Future<void> _categoriesToggleSwitch() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      categories.categoriesMap[widget.category] = !categories.categoriesMap[widget.category];
+      prefs.setBool('${widget.category}', categories.categoriesMap[widget.category]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -125,20 +141,18 @@ class _CategoriesState extends State<Categories> {
           Row(
             children: [
               Text(
-                widget.category,
+                '${widget.category}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w100,
                   fontSize: 24,
                   color: Colors.white,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Switch(
                 value: categories.categoriesMap[widget.category],
                 onChanged: (bool newValue) {
-                  setState(() {
-                    categories.categoriesMap[widget.category] = newValue;
-                  });
+                  _categoriesToggleSwitch();
                 },
                 activeTrackColor: Colors.green,
                 thumbColor: MaterialStateProperty.all(Colors.white),
@@ -152,7 +166,7 @@ class _CategoriesState extends State<Categories> {
 }
 
 class SoundEffects extends StatefulWidget {
-  SoundEffects({
+  const SoundEffects({
     Key? key,
   }) : super(key: key);
 
@@ -178,7 +192,7 @@ class _SoundEffectsState extends State<SoundEffects> {
                 color: Colors.white,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Switch(
               value: categories.soundeffects,
               onChanged: (bool newValue) {
