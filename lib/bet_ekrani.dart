@@ -264,7 +264,6 @@ class SoruKutucugu extends StatelessWidget {
 class QuestionClass {
 
   static int? questionTopic;
-  static int? questionItself;
   static String? questionOnScreen;
 
   Random random = Random();
@@ -276,7 +275,6 @@ class QuestionClass {
         break;
       }
     }
-    questionItself = random.nextInt(categories.questions[questionTopic].length);
     try {
       questionOnScreen = categories.questions[questionTopic].firstWhere((x) => categories.questionsAlreadyAsked.contains(x) == false);
     } catch (e) {

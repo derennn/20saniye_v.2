@@ -48,7 +48,7 @@ class _ScoreBoardEkraniState extends State<ScoreBoardEkrani> {
           Positioned(
             left: 20,
             right: 20,
-            bottom: 400,
+            top: skorlar.globalSkorTablosuMap[widget.kazanankim] == 5 ? 140 : 280,
             child: Center(
               child: skorlar.globalSkorTablosuMap[widget.kazanankim] == 5
                   ? Column(
