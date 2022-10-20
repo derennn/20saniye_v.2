@@ -25,10 +25,8 @@ class OyunaBaslaState extends State<OyunaBasla> {
   late int oyuncuAdedi;
   late List<int> karsilasanOyuncularList;
 
-  @override
-  void dispose() {
+  void customDispose() {
     oyuncusayisiController.dispose();
-    super.dispose();
   }
 
   @override
@@ -58,6 +56,7 @@ class OyunaBaslaState extends State<OyunaBasla> {
       child: TextButton(
         onPressed: () {
           buildShowModalBottomSheetTamam(context);
+          listoflists.clear();
         },
         style: TextButton.styleFrom(
           foregroundColor: Colors.white,

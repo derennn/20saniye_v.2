@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yirmibir_saniye/anasayfa/oyunabaslabutton.dart';
 import 'globals/oyuncusayilari.dart';
 import 'globals/skorlar.dart' as skorlar;
 import 'dart:math' as math;
@@ -19,6 +20,7 @@ class MenuyeDon extends StatelessWidget {
           listoflists.clear();
           Navigator.of(context).popUntil((route) => route.isFirst);
           skorlar.updatedPlayerNames.clear();
+          OyunaBaslaState().customDispose();
         },
         child: Row(
           children: [
