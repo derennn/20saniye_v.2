@@ -189,7 +189,6 @@ class _SkorTablosuOyuncuIsmiState extends State<SkorTablosuOyuncuIsmi> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return TextButton(
       onPressed: () {
         buildShowModalBottomSheet(context);
