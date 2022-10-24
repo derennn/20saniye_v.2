@@ -101,7 +101,7 @@ class _SoruGirState extends State<SoruGir> {
                             onChanged: (value) {
                               setSheetState(() {});
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, bottom: 5),
                               hintText: '20 saniye içinde kaç tane...',
@@ -151,13 +151,13 @@ class _SoruGirState extends State<SoruGir> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Sorulara eklendi!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 24),
           ),
           backgroundColor: defaultGreyColor,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
           actions: [
@@ -167,7 +167,7 @@ class _SoruGirState extends State<SoruGir> {
               },
               style:
                   ElevatedButton.styleFrom(backgroundColor: defaultOrangeColor),
-              child: Text(
+              child: const Text(
                 'Tamam',
                 style: TextStyle(color: Colors.white),
               ),
